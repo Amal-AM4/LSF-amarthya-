@@ -23,13 +23,14 @@ async function empReg (req, res) {
 
 async function empRegData (req, res) {
     try {
-        const { name, phone, category, exp, addr, place, password } = req.body;
+        const { name, phone, category, exp, edu, addr, place, password } = req.body;
         const addEmpData = await prisma.Employee.create({
             data: {
                 name: name,
                 phone: phone,
                 expertiseId: parseInt(category),
                 experience: parseInt(exp),
+                education: edu,
                 address: addr,
                 place: place,
                 password: password
@@ -56,7 +57,7 @@ async function home(req, res) {
                 expertise: true // This will include the associated JobCategory
             }
         });
-        
+
         res.render('emp/index', { data: emp })
     } catch (error) {
         console.error(error);

@@ -21,6 +21,7 @@ router.get('/admin/index',authAdmin, adminController.home);
 router.get('/admin/addCategory',authAdmin, adminController.addCategory);
 router.get('/admin/empDetails',authAdmin, adminController.empDetails);
 router.get('/admin/removeCategory/:id',authAdmin, adminController.removeCategory);
+router.get('/admin/removeEmp/:id',authAdmin, adminController.removeEmp);
 
 router.post('/admin/login', adminController.adminLoginProcess);
 router.post('/admin/addCategory', adminController.categoryAdd);

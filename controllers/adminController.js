@@ -118,6 +118,22 @@ async function empDetails(req, res) {
     }
 }
 
+async function removeEmp(req, res) {
+    const id = req.params.id;
+    try {
+        const category = await prisma.Employee.delete({
+            where: {
+                id: parseInt(id),
+            }
+        });
+        console.log('Emp is removed');
+        
+        return res.redirect('/admin/empDetails');
+    } catch (error) {
+        console.error(error);
+    }
+}
+
 // global page
 async function login(req, res) {
     try {
@@ -137,6 +153,6 @@ async function register(req, res) {
 
 module.exports = {
     adminLogin, adminLogin, adminLoginProcess, home, adminLogout,
-    addCategory, categoryAdd, removeCategory, empDetails,
+    addCategory, categoryAdd, removeCategory, empDetails, removeEmp,
     login, register
 };
