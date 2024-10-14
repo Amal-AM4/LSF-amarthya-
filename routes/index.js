@@ -1,13 +1,14 @@
 var express = require('express');
 const adminController = require('../controllers/adminController');
 const empController = require('../controllers/empController');
+const userController = require('../controllers/userController');
+
 
 const authAdmin = require('../middlewares/authAdmin');
 const authEmp = require('../middlewares/authEmp');
+const authUser = require('../middlewares/authUser');
 
 var router = express.Router();
-
-
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -26,10 +27,6 @@ router.get('/admin/removeEmp/:id',authAdmin, adminController.removeEmp);
 router.post('/admin/login', adminController.adminLoginProcess);
 router.post('/admin/addCategory', adminController.categoryAdd);
 
-router.get('/login', adminController.login);
-router.get('/register', adminController.register);
-
-
 // emp
 router.get('/emp/login', empController.empLogin);
 router.get('/emp/logout', empController.empLogout);
@@ -38,5 +35,12 @@ router.get('/emp/index', authEmp, empController.home);
 
 router.post('/emp/register', empController.empRegData);
 router.post('/emp/login', empController.empLoginProcess);
+
+// user
+router.get('/user/login', userController.login);
+router.get('/user/register', userController.register);
+
+
+
 
 module.exports = router;

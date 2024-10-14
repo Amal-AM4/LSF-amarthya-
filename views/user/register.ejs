@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-  <title>Register | Emp</title>
+  <title>Register | User</title>
   <meta content="" name="description">
   <meta content="" name="keywords">
 
@@ -53,7 +53,7 @@
                 <div class="card-body">
 
                   <div class="pt-4 pb-2">
-                    <h5 class="card-title text-center pb-0 fs-4">Create an Emp Account</h5>
+                    <h5 class="card-title text-center pb-0 fs-4">Create an User Account</h5>
                     <p class="text-center small">Enter your personal details to create account</p>
                   </div>
 
@@ -73,25 +73,9 @@
                     </div>
 
                     <div class="col-12">
-                      <label for="yourCat" class="form-label">Job Title</label>
-                      <select name="category" id="" class="form-control">
-                        <% data.forEach(col => { %>
-                         <option value="<%= col.id %>"><%= col.name %></option>
-                        <% }) %>
-                      </select>
-                      <div class="invalid-feedback">Please enter a valid category!</div>
-                    </div>
-
-                    <div class="col-12">
-                      <label for="yourexp" class="form-label">Experience</label>
-                      <input type="number" name="exp" class="form-control" id="yourexp" required placeholder="Eg: 1,2,3">
-                      <div class="invalid-feedback">Please enter a valid Experience year!</div>
-                    </div>
-
-                    <div class="col-12">
-                      <label for="youredu" class="form-label">Education (Current Higher Qualification)</label>
-                      <input type="text" name="edu" class="form-control" id="youredu" required placeholder="Higher Qualification">
-                      <div class="invalid-feedback">Please enter a valid Experience year!</div>
+                      <label for="yourPassword" class="form-label">Password</label>
+                      <input type="password" name="password" class="form-control" id="yourPassword" required placeholder="•••••••••">
+                      <div class="invalid-feedback">Please enter your password!</div>
                     </div>
 
                     <div class="col-12">
@@ -107,16 +91,10 @@
                     </div>
 
                     <div class="col-12">
-                      <label for="yourPassword" class="form-label">Password</label>
-                      <input type="password" name="password" class="form-control" id="yourPassword" required placeholder="•••••••••">
-                      <div class="invalid-feedback">Please enter your password!</div>
-                    </div>
-
-                    <div class="col-12">
                       <button class="btn btn-primary w-100" type="submit">Create Account</button>
                     </div>
                     <div class="col-12">
-                      <p class="small mb-0">Already have an account? <a href="/emp/login">Log in</a></p>
+                      <p class="small mb-0">Already have an account? <a href="/user/login">Log in</a></p>
                     </div>
                   </form>
 
