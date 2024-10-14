@@ -59,6 +59,51 @@ async function home(req, res) {
     }
 }
 
+async function addCategory(req, res) {
+    try {
+        const category = await prisma.JobCategory.findMany({
+            orderBy: {
+                createdAt: 'desc',
+            }
+        });
+        res.render('admin/addCategory', { data: category });
+    } catch (error) {
+        console.error(error);
+    }
+}
+
+async function removeCategory(req, res) {
+    const id = req.params.id;
+    try {
+        const category = await prisma.JobCategory.delete({
+            where: {
+                id: parseInt(id),
+            }
+        });
+        console.log('category is removed');
+        
+        return res.redirect('/admin/addCategory');
+    } catch (error) {
+        console.error(error);
+    }
+}
+
+async function categoryAdd(req, res) {
+    const { category } = req.body;
+    try {
+        const addCategory = await prisma.JobCategory.create({
+            data: {
+                name: category
+            }
+        });
+
+        console.log('Category added');
+        res.redirect('/admin/addCategory');
+        
+    } catch (error) {
+        console.error(error);
+    }
+}
 
 // global page
 async function login(req, res) {
@@ -79,5 +124,6 @@ async function register(req, res) {
 
 module.exports = {
     adminLogin, adminLogin, adminLoginProcess, home, adminLogout,
+    addCategory, categoryAdd, removeCategory,
     login, register
 };
