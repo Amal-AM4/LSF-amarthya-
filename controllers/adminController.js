@@ -105,6 +105,19 @@ async function categoryAdd(req, res) {
     }
 }
 
+async function empDetails(req, res) {
+    try {
+        const emp = await prisma.Employee.findMany({
+            orderBy: {
+                createdAt: 'desc',
+            }
+        });
+        res.render('admin/empDetails', { data: emp });
+    } catch (error) {
+        console.error(error);
+    }
+}
+
 // global page
 async function login(req, res) {
     try {
@@ -124,6 +137,6 @@ async function register(req, res) {
 
 module.exports = {
     adminLogin, adminLogin, adminLoginProcess, home, adminLogout,
-    addCategory, categoryAdd, removeCategory,
+    addCategory, categoryAdd, removeCategory, empDetails,
     login, register
 };
