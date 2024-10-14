@@ -3,6 +3,8 @@ const adminController = require('../controllers/adminController');
 const empController = require('../controllers/empController');
 
 const authAdmin = require('../middlewares/authAdmin');
+const authEmp = require('../middlewares/authEmp');
+
 var router = express.Router();
 
 
@@ -19,6 +21,7 @@ router.get('/admin/index',authAdmin, adminController.home);
 router.get('/admin/addCategory',authAdmin, adminController.addCategory);
 router.get('/admin/empDetails',authAdmin, adminController.empDetails);
 router.get('/admin/removeCategory/:id',authAdmin, adminController.removeCategory);
+
 router.post('/admin/login', adminController.adminLoginProcess);
 router.post('/admin/addCategory', adminController.categoryAdd);
 
@@ -28,7 +31,11 @@ router.get('/register', adminController.register);
 
 // emp
 router.get('/emp/login', empController.empLogin);
+router.get('/emp/logout', empController.empLogout);
 router.get('/emp/register', empController.empReg);
+router.get('/emp/index', authEmp, empController.home);
+
 router.post('/emp/register', empController.empRegData);
+router.post('/emp/login', empController.empLoginProcess);
 
 module.exports = router;

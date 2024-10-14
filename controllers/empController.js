@@ -43,7 +43,71 @@ async function empRegData (req, res) {
     }
 }
 
+async function home(req, res) {
+    try {
+        const empData = req.emp;
+        const pk = empData.empId;
+        console.log(empData);
+        
+        // Fetch employee details along with their associated job category
+        const emp = await prisma.employee.findUnique({
+            where: { id: pk },
+            include: {
+                expertise: true // This will include the associated JobCategory
+            }
+        });
+        
+        res.render('emp/index', { data: emp })
+    } catch (error) {
+        console.error(error);
+    }
+}
+
+// handle emp login requests
+async function empLoginProcess (req, res) {
+    try {
+        const { phone, password } = req.body;
+        console.log(`${phone} ${password}`);
+        
+        const emp = await prisma.Employee.findUnique({
+            where: {
+                phone: phone
+            }
+        });
+
+        if (!emp) {
+            return res.status(404).json({ message: "Emp not found"});
+        }
+
+        let isPassVaild = false;
+
+        if ((emp.password) === password) {
+            isPassVaild = true;
+        }
+
+        if (!isPassVaild) {
+            return res.status(401).json({message: "Invaild password"})
+        }
+
+        const token = jwt.sign({ empId: emp.id }, CODE, { expiresIn: '1h' });
+
+        res.cookie("empToken", token, { httpOnly: true });
+
+        res.redirect('/emp/index');
+
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Error logging in' });
+    }
+}
+
+async function empLogout (req, res) {  
+    res.clearCookie('empToken');
+    return res.redirect('/emp/login');
+}
+
 
 module.exports = {
-    empLogin, empReg, empRegData,
+    empLogin, empReg, empRegData, empLoginProcess, empLogout,
+    home,
 }
