@@ -38,8 +38,12 @@ router.post('/emp/login', empController.empLoginProcess);
 
 // user
 router.get('/user/login', userController.login);
+router.get('/user/logout', userController.userLogout);
 router.get('/user/register', userController.register);
+router.get('/user/dashboard', authUser, userController.dashboard);
 
+router.post('/user/register', userController.registerUserData);
+router.post('/user/login', userController.userLoginProcess);
 
 
 

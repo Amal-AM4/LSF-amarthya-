@@ -13,7 +13,7 @@ function authUser (req, res, next) {
     try {
         // verify and decode the token
         const user = jwt.verify(userToken, CODE);
-        req.user = user;
+        req.userOne = user;
         next();
         
     } catch (error) {
