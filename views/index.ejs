@@ -6,6 +6,7 @@
   <title>Home - LSF</title>
 
   <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  
   <link rel="stylesheet" href="assets/css/index.css">
 
 </head>
@@ -36,19 +37,39 @@
         <h1>Welcome to Local Services Finder</h1>
         <h3>Search </h3>
 
-        <form action="">
+        <!-- Updated form with proper IDs -->
+        <form id="searchForm">
           <div class="form-control">
-            <input type="text" name="" id="" placeholder="Place/Location">
-            <select name="" id="">
-              <option value="" hidden>Job Title</option>
-              <option value="">Dev</option>
-              <option value="">Jn.Dev</option>
+            <input type="text" name="place" id="place" required placeholder="Place/Location">
+            <select name="jobCategoryId" id="jobCategoryId">
+              <option hidden>Job Title</option>
+              <% data.forEach(col => { %>
+                <option value="<%= col.id %>"><%= col.name %></option>
+              <% }) %>
             </select>
-            <button>
-              <i class="bi bi-search"></i>
+            <button type="submit">
+              <i class="bi bi-search"></i> Search
             </button>
           </div>
         </form>
+
+        <!-- Table to display results -->
+        <div class="table">
+          <table id="employeeTable">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Category</th>
+                <th>Place</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- Employees will be dynamically populated here -->
+            </tbody>
+          </table>
+        </div>
+
       </div>
     </section>
   </main>
@@ -59,7 +80,45 @@
     </div>
   </footer>
 
+  <script>
+    document.getElementById('searchForm').addEventListener('submit', async (e) => {
+      e.preventDefault(); // Prevent form from reloading the page
+      
+      const place = document.getElementById('place').value;
+      const jobCategoryId = document.getElementById('jobCategoryId').value;
   
+      const response = await fetch(`/search?place=${place}&jobCategoryId=${jobCategoryId}`);
+      const employees = await response.json();
+      
+      const employeeTable = document.getElementById('employeeTable').getElementsByTagName('tbody')[0];
+      employeeTable.innerHTML = ''; // Clear previous results
+  
+      employees.forEach(employee => {
+        const row = `
+          <tr>
+            <td>${employee.name}</td>
+            <td>${employee.expertise.name}</td>
+            <td>${employee.place}</td>
+            <td>
+              <button onclick="viewMore(${employee.id})" class='btn-view'>View More</button>
+              <button onclick="bookEmployee(${employee.id})" class='btn-book'>Book</button>
+            </td>
+          </tr>
+        `;
+        employeeTable.innerHTML += row;
+      });
+    });
+
+    function viewMore(empId) {
+      // Logic to view more employee details like phone, experience, etc.
+      console.log("View more details for employee ID:", empId);
+    }
+
+    function bookEmployee(empId) {
+      // Logic to book the employee
+      console.log("Booking employee ID:", empId);
+    }
+  </script>
   
 </body>
 </html>

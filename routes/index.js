@@ -1,4 +1,5 @@
 var express = require('express');
+const prisma = require("../config/database");
 const adminController = require('../controllers/adminController');
 const empController = require('../controllers/empController');
 const userController = require('../controllers/userController');
@@ -11,9 +12,41 @@ const authUser = require('../middlewares/authUser');
 var router = express.Router();
 
 /* GET home page. */
-router.get('/', function(req, res, next) {
-  res.render('index');
+router.get('/', async function(req, res, next) {
+  try {
+    const category = await prisma.JobCategory.findMany();
+
+    res.render('index', { data: category });
+  } catch (error) {
+    console.error(error);
+  }
 });
+
+// Fetch available employees based on place and job category
+router.get('/search', async (req, res) => {
+  const { place, jobCategoryId } = req.query;
+
+  try {
+    const employees = await prisma.Employee.findMany({
+      where: {
+        place: place,
+        expertiseId: parseInt(jobCategoryId),
+        isAvailable: true,
+      },
+      include: {
+        expertise: true // To get job category details
+      }
+    });
+
+    res.json(employees);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Error fetching employees' });
+  }
+});
+
+
+
 
 // admin
 router.get('/admin/logout', adminController.adminLogout);
