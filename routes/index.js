@@ -1,9 +1,14 @@
 var express = require('express');
 const prisma = require("../config/database");
+
+const jwt = require('jsonwebtoken');
+
+require('dotenv').config();
+const CODE = process.env.JSON_KEY;
+
 const adminController = require('../controllers/adminController');
 const empController = require('../controllers/empController');
 const userController = require('../controllers/userController');
-
 
 const authAdmin = require('../middlewares/authAdmin');
 const authEmp = require('../middlewares/authEmp');
@@ -13,13 +18,27 @@ var router = express.Router();
 
 /* GET home page. */
 router.get('/', async function(req, res, next) {
-  try {
-    const category = await prisma.JobCategory.findMany();
+  const userToken = req.cookies.userToken;
 
-    res.render('index', { data: category });
-  } catch (error) {
-    console.error(error);
+  if (userToken === undefined) {
+    try {
+      const category = await prisma.JobCategory.findMany();
+  
+      res.render('index', { data: category, active: false });
+    } catch (error) {
+      console.error(error);
+    }
+  } else {
+    try {
+      const category = await prisma.JobCategory.findMany();
+  
+      res.render('index', { data: category, active: true });
+    } catch (error) {
+      console.error(error);
+    }
   }
+
+  
 });
 
 // Fetch available employees based on place and job category
@@ -42,6 +61,57 @@ router.get('/search', async (req, res) => {
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Error fetching employees' });
+  }
+});
+
+// POST route to book an employee
+router.post('/book/:empId', authUser, async (req, res) => {
+  const empId = parseInt(req.params.empId);
+  const userToken = req.cookies.userToken; // Get the token from cookies (server-side)
+  
+  if (!userToken) {
+    return res.status(401).send('Please login to book an employee.');
+  }
+
+  try {
+    // Verify token (assuming you use jwt)
+    const decoded = jwt.verify(userToken, CODE);
+    const id = decoded.userId;
+
+    console.log(decoded);
+    
+    
+    // Fetch employee and job category details
+    const employee = await prisma.Employee.findUnique({
+      where: { id: empId },
+      include: { expertise: true }
+    });
+
+    if (!employee) {
+      return res.status(404).json({ message: 'Employee not found' });
+    }
+
+    // Create a new booking record
+    const booking = await prisma.Booking.create({
+      data: {
+        userId: parseInt(id),
+        employeeId: empId,
+        jobCategoryId: employee.expertiseId,
+        date: new Date(),
+        status: 'PENDING'
+      }
+    });
+
+    // Update employee's availability to false
+    await prisma.Employee.update({
+      where: { id: empId },
+      data: { isAvailable: false }
+    });
+
+    res.status(200).json({ message: 'Employee booked successfully', booking });
+  } catch (error) {
+    console.error('Error creating booking:', error);
+    res.status(500).json({ message: 'Error booking employee' });
   }
 });
 

@@ -70,6 +70,9 @@ async function userLoginProcess (req, res) {
 
         res.cookie("userToken", token, { httpOnly: true });
 
+        // localStorage.setItem('userToken', user.id);
+        // alert(localStorage.getItem('userToken'));
+
         res.redirect('/user/dashboard');
 
     } catch (error) {

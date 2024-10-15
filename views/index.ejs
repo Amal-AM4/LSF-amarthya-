@@ -80,6 +80,8 @@
     </div>
   </footer>
 
+   
+
   <script>
     document.getElementById('searchForm').addEventListener('submit', async (e) => {
       e.preventDefault(); // Prevent form from reloading the page
@@ -101,7 +103,13 @@
             <td>${employee.place}</td>
             <td>
               <button onclick="viewMore(${employee.id})" class='btn-view'>View More</button>
-              <button onclick="bookEmployee(${employee.id})" class='btn-book'>Book</button>
+              <% if (active === false) { %>
+                <button disabled onclick="bookEmployee(${employee.id})" class='btn-book'
+                style="background-color: #888888;">Book</button>
+              <% } else { %>
+                <button onclick="bookEmployee(${employee.id})" class='btn-book'>Book</button>
+              <% } %>
+              
             </td>
           </tr>
         `;
@@ -114,10 +122,33 @@
       console.log("View more details for employee ID:", empId);
     }
 
-    function bookEmployee(empId) {
-      // Logic to book the employee
-      console.log("Booking employee ID:", empId);
+  async function bookEmployee(empId) {
+    try {
+      const response = await fetch(`/book/${empId}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        }
+      });
+
+      if (response.status === 200) {
+        alert('Employee booked successfully!');
+        window.location.href = '/';
+      } else if (response.status === 401) {
+        alert('Please log in to book an employee.');
+        window.location.href = '/user/login'; // Redirect to login if unauthorized
+      } else {
+        alert('Failed to book the employee. Please try again.');
+      }
+    } catch (error) {
+      console.error('Error booking the employee:', error);
+      alert('An error occurred while booking the employee.');
     }
+  }
+
+
+
+    
   </script>
   
 </body>
