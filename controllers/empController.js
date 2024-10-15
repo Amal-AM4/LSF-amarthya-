@@ -112,3 +112,4 @@ module.exports = {
     empLogin, empReg, empRegData, empLoginProcess, empLogout,
     home,
 }
+

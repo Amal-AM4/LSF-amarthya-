@@ -110,6 +110,9 @@ async function empDetails(req, res) {
         const emp = await prisma.Employee.findMany({
             orderBy: {
                 createdAt: 'desc',
+            },
+            include: {
+                expertise: true // Assuming 'jobCategory' is the relation name in your Prisma schema
             }
         });
         res.render('admin/empDetails', { data: emp });
@@ -118,10 +121,23 @@ async function empDetails(req, res) {
     }
 }
 
+async function userDetails(req, res) {
+    try {
+        const user = await prisma.User.findMany({
+            orderBy: {
+                createdAt: 'desc',
+            }
+        });
+        res.render('admin/userDetails', { data: user });
+    } catch (error) {
+        console.error(error);
+    }
+}
+
 async function removeEmp(req, res) {
     const id = req.params.id;
     try {
-        const category = await prisma.Employee.delete({
+        const emp = await prisma.Employee.delete({
             where: {
                 id: parseInt(id),
             }
@@ -129,6 +145,22 @@ async function removeEmp(req, res) {
         console.log('Emp is removed');
         
         return res.redirect('/admin/empDetails');
+    } catch (error) {
+        console.error(error);
+    }
+}
+
+async function removeUser(req, res) {
+    const id = req.params.id;
+    try {
+        const user = await prisma.User.delete({
+            where: {
+                id: parseInt(id),
+            }
+        });
+        console.log('User is removed');
+        
+        return res.redirect('/admin/userDetails');
     } catch (error) {
         console.error(error);
     }
@@ -154,5 +186,6 @@ async function register(req, res) {
 module.exports = {
     adminLogin, adminLogin, adminLoginProcess, home, adminLogout,
     addCategory, categoryAdd, removeCategory, empDetails, removeEmp,
+    userDetails, removeUser,
     login, register
 };

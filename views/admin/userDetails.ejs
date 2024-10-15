@@ -42,7 +42,7 @@
   <!-- End Sidebar-->
 
   <main id="main" class="main">
-    <h1>All Employee Details</h1>
+    <h1>All Users Details</h1>
 
     <!-- table -->
     <div class="col-12 mt-4">
@@ -57,12 +57,8 @@
                 <th scope="col">#</th>
                 <th scope="col">Emp Name</th>
                 <th scope="col">Phone</th>
-                <th scope="col">Category</th>
-                <th scope="col">Experience</th>
-                <th scope="col">Education</th>
                 <th scope="col">Place</th>
                 <th scope="col">Address</th>
-                <th scope="col">isAvailable</th>
                 <th scope="col">Remove</th>
               </tr>
             </thead>
@@ -73,13 +69,9 @@
                   <th scope="row"><%= count %></th>
                   <td><%= col.name %></td>
                   <td><%= col.phone %></td>
-                  <td><%= col.expertise.name %></td>
-                  <td><%= col.experience %></td>
-                  <td><%= col.education %></td>
                   <td><%= col.place %></td>
                   <td><%= col.address %></td>
-                  <td><%= col.isAvailable %></td>
-                  <td><a href="/admin/removeEmp/<%= col.id %>" class="btn btn-danger">Delete</a></td>
+                  <td><a href="/admin/removeUser/<%= col.id %>" class="btn btn-danger">Delete</a></td>
                </tr>
                <% count ++ %>
               <% }) %>

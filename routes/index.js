@@ -124,8 +124,10 @@ router.get('/admin/login', adminController.adminLogin);
 router.get('/admin/index',authAdmin, adminController.home);
 router.get('/admin/addCategory',authAdmin, adminController.addCategory);
 router.get('/admin/empDetails',authAdmin, adminController.empDetails);
+router.get('/admin/userDetails',authAdmin, adminController.userDetails);
 router.get('/admin/removeCategory/:id',authAdmin, adminController.removeCategory);
 router.get('/admin/removeEmp/:id',authAdmin, adminController.removeEmp);
+router.get('/admin/removeUser/:id',authAdmin, adminController.removeUser);
 
 router.post('/admin/login', adminController.adminLoginProcess);
 router.post('/admin/addCategory', adminController.categoryAdd);
