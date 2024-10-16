@@ -71,7 +71,11 @@
                     <td scope="row"><%= booking.user.phone %></td>
                     <td scope="row"><%= booking.user.place %></td>
                     <td scope="row"><%= booking.user.address %></td>
-                    <td scope="row"><%= booking.status %></td>
+                    <td scope="row">
+                        <span 
+                        style="background-color: rgb(255, 193, 7); display: block;
+                        padding: 5px; border-radius: 4px; font-weight: bold;"><%= booking.status %></span>
+                    </td>
                     <td scope="row"><%= booking.rating ? booking.rating.score : 'Not Rated' %></td>
                     <td scope="row">
                         <a href="/emp/bookingUpdate/<%= booking.id %>" class="btn btn-success">Job Completed</a>
