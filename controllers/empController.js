@@ -79,7 +79,10 @@ async function booking(req, res) {
 
         // Fetch the booking details for the employee
         const bookings = await prisma.Booking.findMany({
-            where: { employeeId: empId },
+            where: { 
+                employeeId: empId,
+                status: 'PENDING' // Filter by 'PENDING' status
+            },
             include: {
                 user: true, // To include user details (name, phone, place, address)
                 rating: true, // To include rating details (if available)
