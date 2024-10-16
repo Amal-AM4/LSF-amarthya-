@@ -137,6 +137,8 @@ router.get('/emp/login', empController.empLogin);
 router.get('/emp/logout', empController.empLogout);
 router.get('/emp/register', empController.empReg);
 router.get('/emp/index', authEmp, empController.home);
+router.get('/emp/booking', authEmp, empController.booking);
+router.get('/emp/bookingUpdate/:id', authEmp, empController.jobCompleted);
 
 router.post('/emp/register', empController.empRegData);
 router.post('/emp/login', empController.empLoginProcess);

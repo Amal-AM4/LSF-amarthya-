@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-  <title>Dashboard | Emp</title>
+  <title>Dashboard | Booking</title>
   <meta content="" name="description">
   <meta content="" name="keywords">
 
@@ -45,27 +45,44 @@
   <main id="main" class="main">
     <h1>Welcome <%= data.name %></h1>
 
-    <h4>Analysis</h4>
+    <h4>Booking Reports</h4>
 
-    <div class="container my-4">
-      <div class="row">
-        <div class="col">
-          <i class="bi bi-book"></i>
-          <h2>0</h2>
-          <h3>Booking</h3>
-        </div>
-        <div class="col">
-          <i class="bi bi-x-octagon"></i>
-          <h2>0</h2>
-          <h3>Cancelled</h3>
-        </div>
-        <div class="col">
-          <i class="bi bi-flag"></i>
-          <h2>0</h2>
-          <h3>Reports</h3>
-        </div>
-      </div>
-    </div>
+    <table class="table table-borderless datatable">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Booking No</th>
+            <th scope="col">Booked By</th>
+            <th scope="col">Contact No</th>
+            <th scope="col">Place</th>
+            <th scope="col">Address</th>
+            <th scope="col">Status</th>
+            <th scope="col">Rating</th>
+            <th scope="col">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+            <% let count = 1; %>
+            <% bookings.forEach(booking => { %>
+                <tr>
+                    <td scope="row"><%= count; %></td>
+                    <td scope="row"><%= booking.bookingNo %></td>
+                    <td scope="row"><%= booking.user.name %></td>
+                    <td scope="row"><%= booking.user.phone %></td>
+                    <td scope="row"><%= booking.user.place %></td>
+                    <td scope="row"><%= booking.user.address %></td>
+                    <td scope="row"><%= booking.status %></td>
+                    <td scope="row"><%= booking.rating ? booking.rating.score : 'Not Rated' %></td>
+                    <td scope="row">
+                        <a href="/emp/bookingUpdate/<%= booking.id %>" class="btn btn-success">Job Completed</a>
+                    </td>
+                </tr>
+                <% count ++; %>
+              <% }) %>
+        </tbody>
+      </table>
+
+    
     
   </main>
 

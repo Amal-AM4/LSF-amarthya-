@@ -64,6 +64,43 @@ async function home(req, res) {
     }
 }
 
+async function booking(req, res) {
+    try {
+        const empData = req.emp;
+        const empId = empData.empId;
+
+        // Fetch employee details along with their associated job category
+        const emp = await prisma.employee.findUnique({
+            where: { id: empId },
+            include: {
+                expertise: true // This will include the associated JobCategory
+            }
+        });
+
+        // Fetch the booking details for the employee
+        const bookings = await prisma.Booking.findMany({
+            where: { employeeId: empId },
+            include: {
+                user: true, // To include user details (name, phone, place, address)
+                rating: true, // To include rating details (if available)
+            },
+            orderBy: {
+                createdAt: 'desc', // Order by the most recent bookings
+            }
+        });
+
+        // Render the booking page and pass the booking details
+        res.render('emp/booking', { data: emp, bookings});
+    } catch (error) {
+        console.error('Error fetching bookings:', error);
+        res.status(500).send('Error fetching bookings');
+    }
+}
+
+async function jobCompleted(req, res) {
+    return null;
+}
+
 // handle emp login requests
 async function empLoginProcess (req, res) {
     try {
@@ -110,6 +147,6 @@ async function empLogout (req, res) {
 
 module.exports = {
     empLogin, empReg, empRegData, empLoginProcess, empLogout,
-    home,
+    home, booking, jobCompleted,
 }
 
