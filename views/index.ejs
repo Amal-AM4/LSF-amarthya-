@@ -15,9 +15,17 @@
   <header>
     <nav>
       <ul>
-        <li>
-          <a href="/user/login" class="btn">SignIn</a>
-        </li>
+
+        <% if (dashboardOpt === false) { %>
+          <li>
+            <a href="/user/login" class="btn">SignIn</a>
+          </li>
+        <% } else { %>
+          <li>
+            <a href="/user/dashboard" class="btn">Dashboard</a>
+          </li>
+        <% } %>
+        
         <li>
           <a href="/user/register" class="btn">Create User Account</a>
         </li>

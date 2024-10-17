@@ -24,7 +24,7 @@ router.get('/', async function(req, res, next) {
     try {
       const category = await prisma.JobCategory.findMany();
   
-      res.render('index', { data: category, active: false });
+      res.render('index', { data: category, active: false, dashboardOpt: false });
     } catch (error) {
       console.error(error);
     }
@@ -32,7 +32,7 @@ router.get('/', async function(req, res, next) {
     try {
       const category = await prisma.JobCategory.findMany();
   
-      res.render('index', { data: category, active: true });
+      res.render('index', { data: category, active: true, dashboardOpt: true });
     } catch (error) {
       console.error(error);
     }
