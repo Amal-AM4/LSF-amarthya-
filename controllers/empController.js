@@ -60,11 +60,23 @@ async function home(req, res) {
 
         const bookCount = await prisma.Booking.count({
             where: { employeeId: pk }
-        });
-        
-        console.log(bookCount);
+        });     
 
-        res.render('emp/index', { data: emp, bookCount })
+        const bookingsUser = await prisma.Booking.findMany({
+            where: { 
+                employeeId: pk,
+                status: 'PENDING' 
+            },
+            include: {
+                user: true, 
+                rating: true, 
+            },
+            orderBy: {
+                createdAt: 'desc', 
+            }
+        });
+
+        res.render('emp/index', { data: emp, bookCount, bookingsUser })
     } catch (error) {
         console.error(error);
     }

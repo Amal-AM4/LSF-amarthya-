@@ -47,6 +47,14 @@
 
     <h4>Analysis</h4>
 
+    <% bookingsUser.forEach(col => { %>
+      <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        <strong>Booking Received: </strong> <%= col.user.name %> has booked your service at <%= col.user.place %>
+         <a href="/emp/booking" class="btn btn-success">Job Completed</a>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+    <% }) %>
+
     <div class="container my-4">
       <div class="row">
         <div class="col">
