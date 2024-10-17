@@ -48,7 +48,7 @@ async function home(req, res) {
     try {
         const empData = req.emp;
         const pk = empData.empId;
-        console.log(empData);
+        // console.log(empData);
         
         // Fetch employee details along with their associated job category
         const emp = await prisma.employee.findUnique({
@@ -58,7 +58,13 @@ async function home(req, res) {
             }
         });
 
-        res.render('emp/index', { data: emp })
+        const bookCount = await prisma.Booking.count({
+            where: { employeeId: pk }
+        });
+        
+        console.log(bookCount);
+
+        res.render('emp/index', { data: emp, bookCount })
     } catch (error) {
         console.error(error);
     }
