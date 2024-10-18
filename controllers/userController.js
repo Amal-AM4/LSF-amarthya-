@@ -67,11 +67,8 @@ async function userLoginProcess (req, res) {
         }
 
         const token = jwt.sign({ userId: user.id }, CODE, { expiresIn: '1h' });
-
         res.cookie("userToken", token, { httpOnly: true });
 
-        // localStorage.setItem('userToken', user.id);
-        // alert(localStorage.getItem('userToken'));
 
         res.redirect('/user/dashboard');
 
@@ -101,8 +98,68 @@ async function dashboard (req, res) {
     }
 }
 
+async function bookList (req, res) {
+    try {
+        const userData = req.userOne;
+        const pk = userData.userId;
+
+        const users = await prisma.User.findUnique({
+            where: { id: parseInt(pk) }
+        });
+
+        const bookingsUser = await prisma.Booking.findMany({
+            where: { 
+                userId: pk,
+                status: 'PENDING' 
+            },
+            include: {
+                user: true, 
+                rating: true, 
+                employee: true,
+            },
+            orderBy: {
+                createdAt: 'desc', 
+            }
+        });
+
+        res.render('user/bookingList', { data: users, bookingsUser });
+    } catch (error) {
+        console.error(error);
+    }
+}
+
+async function bookingComplaint(req, res) {
+    try {
+        const userData = req.userOne;
+        const pk = userData.userId;
+
+        const bookingId = req.query.id;
+        console.log(`Booking ID : ${bookingId}`);
+
+        const users = await prisma.User.findUnique({
+            where: { id: parseInt(pk) }
+        });
+
+        const bookingsEmp = await prisma.Booking.findUnique({
+            where: { 
+                bookingNo: bookingId,
+            },
+            include: {
+                user: true, 
+                rating: true, 
+                employee: true,
+            }
+        });
+
+        res.render('user/complaint', { data: users, bookingsEmp, });
+    } catch (error) {
+        console.error(error);
+    }
+}
+
 
 module.exports = {
     login, register, registerUserData, userLoginProcess, dashboard, userLogout,
+    bookList, bookingComplaint
 
 };

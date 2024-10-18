@@ -148,6 +148,8 @@ router.get('/user/login', userController.login);
 router.get('/user/logout', userController.userLogout);
 router.get('/user/register', userController.register);
 router.get('/user/dashboard', authUser, userController.dashboard);
+router.get('/user/bookList', authUser, userController.bookList);
+router.get('/user/bookingComplaint', authUser, userController.bookingComplaint);
 
 router.post('/user/register', userController.registerUserData);
 router.post('/user/login', userController.userLoginProcess);
