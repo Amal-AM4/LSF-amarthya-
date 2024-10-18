@@ -29,6 +29,26 @@
   <!-- Template Main CSS File -->
   <link href="../assets/css/style.css" rel="stylesheet">
 
+  <style>
+    .col {
+        background-color: #fff;
+        color: #1a1a1a;
+        display: flex;
+        flex-direction: column;
+        height: 200px;
+        margin-right: 8px;
+        border-radius: 8px;
+        box-shadow: 10px 10px 15px #1a1a1a25;
+        text-align: center;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .col i {
+        font-size: 48px;
+    }
+  </style>
+
 </head>
 
 <body>
@@ -43,6 +63,27 @@
 
   <main id="main" class="main">
     <h1>Welcome <%= data.name %></h1>
+    <h4>Sub Analysis</h4>
+
+    <div class="container my-4">
+      <div class="row">
+        <div class="col">
+          <i class="bi bi-book"></i>
+          <h2><%= bookCount || 0 %></h2>
+          <h3>Total Booking</h3>
+        </div>
+        <div class="col">
+          <i class="bi bi-x-octagon"></i>
+          <h2><%= bookCan || 0 %></h2>
+          <h3>Cancelled</h3>
+        </div>
+        <div class="col">
+          <i class="bi bi-flag"></i>
+          <h2><%= reportCount || 0 %></h2>
+          <h3>Reports</h3>
+        </div>
+      </div>
+    </div>
 
   </main>
 

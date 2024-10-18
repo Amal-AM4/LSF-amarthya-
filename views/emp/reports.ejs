@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-  <title>Cancel | User</title>
+  <title>Reports List | Emp</title>
   <meta content="" name="description">
   <meta content="" name="keywords">
 
@@ -42,40 +42,36 @@
   <!-- End Sidebar-->
 
   <main id="main" class="main">
-    <h1>All Cancelled Booking</h1>
+    <h1>All Reports List</h1>
 
     <table class="table table-borderless datatable">
-        <thead>
-          <tr>
-            <th scope="col">#</th>
-            <th scope="col">Booking No</th>
-            <th scope="col">Employee Name</th>
-            <th scope="col">Place</th>
-            <th scope="col">Date Time</th>
-            <th scope="col">Status</th>
-
-          </tr>
-        </thead>
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Booking No</th>
+          <th scope="col">User Name</th>
+          <th scope="col">Report Msg</th>
+          <th scope="col">Date Time</th>
+        </tr>
         <tbody>
             <% let count = 1; %>
-            <% bookingsEmp.forEach(booking => { %>
+            <% reports.forEach(col => { %>
                 <tr>
-                    <td scope="row"><%= count; %></td>
-                    <td scope="row"><%= booking.bookingNo %></td>
-                    <td scope="row"><%= booking.employee.name %></td>
-                    <td scope="row"><%= booking.employee.place %></td>
-                    <td></td>
+                    <td><%= count; %></td>
+                    <td><%= col.booking.bookingNo %></td>
+                    <td><%= col.user.name %></td>
+                    <td><%= col.description %></td>
                     <td scope="row">
-                        <span 
-                        style="background-color: rgb(255, 57, 7); display: block; text-align: center;
-                        padding: 5px; border-radius: 4px; font-weight: bold;"><%= booking.status %></span>
+                        <%= new Date(col.createdAt).toLocaleDateString('en-GB') %> 
+                        <%= new Date(col.createdAt).toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' }) %>
                     </td>
-
                 </tr>
-                <% count ++; %>
-              <% }) %>
+                <% cout ++; %>
+            <% }) %>
         </tbody>
-      </table>
+    </thead>
+      
+    </table>
 
   </main>
 

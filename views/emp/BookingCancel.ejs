@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-  <title>Completed | User</title>
+  <title>Emp | Cancelled</title>
   <meta content="" name="description">
   <meta content="" name="keywords">
 
@@ -28,6 +28,7 @@
 
   <!-- Template Main CSS File -->
   <link href="../assets/css/style.css" rel="stylesheet">
+  <link href="../assets/css/empIndex.css" rel="stylesheet">
 
 </head>
 
@@ -42,17 +43,16 @@
   <!-- End Sidebar-->
 
   <main id="main" class="main">
-    <h1>All Completed Booking</h1>
+
+    <h4>Booking Cancelled</h4>
 
     <table class="table table-borderless datatable">
         <thead>
           <tr>
             <th scope="col">#</th>
             <th scope="col">Booking No</th>
-            <th scope="col">Name</th>
-            <th scope="col">Contact No</th>
+            <th scope="col">Booked By</th>
             <th scope="col">Place</th>
-            <th scope="col">Rating</th>
             <th scope="col">Date Time</th>
             <th scope="col">Status</th>
 
@@ -60,42 +60,30 @@
         </thead>
         <tbody>
             <% let count = 1; %>
-            <% bookingsEmp.forEach(booking => { %>
+            <% bookings.forEach(booking => { %>
                 <tr>
                     <td scope="row"><%= count; %></td>
                     <td scope="row"><%= booking.bookingNo %></td>
-                    <td scope="row"><%= booking.employee.name %></td>
-                    <td scope="row"><%= booking.employee.phone %></td>
-                    <td scope="row"><%= booking.employee.place %></td>
+                    <td scope="row"><%= booking.user.name %></td>
+                    <td scope="row"><%= booking.user.place %></td>
                     <td scope="row">
-                      <input type="hidden" value="<%= booking.id %>" id="bookingId">
-                      <input type="hidden" value="<%= booking.user.id %>" id="userId">
-                      <input type="hidden" value="<%= booking.employee.id %>" id="empId">
-                      <select name="rating" class="form-control" id="ratingSelect">
-                        <option disabled hidden selected>0-5</option>
-                        <option value="1">1 ⭐</option>
-                        <option value="2">2 ⭐</option>
-                        <option value="3">3 ⭐</option>
-                        <option value="4">4 ⭐</option>
-                        <option value="5">5 ⭐</option>
-                      </select>
+                        <%= new Date(booking.createdAt).toLocaleDateString('en-GB') %> 
+                        <%= new Date(booking.createdAt).toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' }) %>
                     </td>
-                    <td scope="row">
-                      <%= new Date(booking.createdAt).toLocaleDateString('en-GB') %> 
-                      <%= new Date(booking.createdAt).toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' }) %>
-                    </td>
+                    
                     <td scope="row">
                         <span 
-                        style="background-color: rgb(71, 216, 57); display: block; text-align: center;
+                        style="background-color: rgb(214, 52, 31); display: block; text-align: center;
                         padding: 5px; border-radius: 4px; font-weight: bold;"><%= booking.status %></span>
                     </td>
-
                 </tr>
                 <% count ++; %>
               <% }) %>
         </tbody>
       </table>
 
+    
+    
   </main>
 
   <!-- ======= Footer ======= -->
@@ -116,35 +104,6 @@
 
   <!-- Template Main JS File -->
   <script src="../assets/js/main.js"></script>
-
-  <script>
-    document.getElementById('ratingSelect').addEventListener('change', async function() {
-      const bookingId = document.getElementById('bookingId').value;
-      const userId = document.getElementById('userId').value;
-      const empId = document.getElementById('empId').value;
-      const rating = this.value; 
-  
-      try {
-        const response = await fetch(`/user/updateRating/${bookingId}/${rating}/${userId}/${empId}`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ rating: parseInt(rating) })
-        });
-  
-        if (response.ok) {
-          alert('Rating updated successfully!');
-          
-        } else {
-          alert('Failed to update rating.');
-        }
-      } catch (error) {
-        console.error('Error:', error);
-      }
-    });
-  </script>
-  
 
 </body>
 

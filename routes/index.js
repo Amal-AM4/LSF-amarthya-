@@ -140,6 +140,8 @@ router.get('/emp/index', authEmp, empController.home);
 router.get('/emp/booking', authEmp, empController.booking);
 router.get('/emp/bookingUpdate/:id', authEmp, empController.jobCompleted);
 router.get('/emp/bookingCompleted', authEmp, empController.bookingCompleted);
+router.get('/emp/BookingCancel', authEmp, empController.BookingCancel);
+router.get('/emp/reports', authEmp, empController.reports);
 
 router.post('/emp/register', empController.empRegData);
 router.post('/emp/login', empController.empLoginProcess);
@@ -159,6 +161,7 @@ router.get('/user/bookingCompleted', authUser, userController.bookingCompleted);
 router.post('/user/register', userController.registerUserData);
 router.post('/user/login', userController.userLoginProcess);
 router.post('/user/bookingComplaint', userController.bookingComplaintAdd);
+router.post('/user/updateRating/:bookingId/:rating/:user/:emp', userController.updateRating);
 
 
 

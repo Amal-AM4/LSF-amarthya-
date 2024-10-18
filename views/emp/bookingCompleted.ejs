@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-  <title>Emp | Booking</title>
+  <title>Emp | Completed</title>
   <meta content="" name="description">
   <meta content="" name="keywords">
 
@@ -52,9 +52,9 @@
             <th scope="col">#</th>
             <th scope="col">Booking No</th>
             <th scope="col">Booked By</th>
-            <th scope="col">Contact No</th>
             <th scope="col">Place</th>
-            <th scope="col">Address</th>
+            <th scope="col">Date Time</th>
+            <th scope="col">Rating</th>
             <th scope="col">Status</th>
 
           </tr>
@@ -66,12 +66,17 @@
                     <td scope="row"><%= count; %></td>
                     <td scope="row"><%= booking.bookingNo %></td>
                     <td scope="row"><%= booking.user.name %></td>
-                    <td scope="row"><%= booking.user.phone %></td>
                     <td scope="row"><%= booking.user.place %></td>
-                    <td scope="row"><%= booking.user.address %></td>
+                    <td scope="row">
+                        <%= new Date(booking.createdAt).toLocaleDateString('en-GB') %> 
+                        <%= new Date(booking.createdAt).toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' }) %>
+                    </td>
+                    <td scope="row">
+                        <b><%= booking.rating ? booking.rating.score : 'Not Rated' %></b> ⭐
+                    </td>
                     <td scope="row">
                         <span 
-                        style="background-color: rgb(31, 214, 70); display: block;
+                        style="background-color: rgb(31, 214, 70); display: block; text-align: center;
                         padding: 5px; border-radius: 4px; font-weight: bold;"><%= booking.status %></span>
                     </td>
                 </tr>

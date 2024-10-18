@@ -60,7 +60,11 @@ async function home(req, res) {
 
         const bookCount = await prisma.Booking.count({
             where: { employeeId: pk }
-        });     
+        });   
+        
+        const reportCount = await prisma.Report.count({
+            where: { employeeId: pk }
+        }); 
 
         const bookingsUser = await prisma.Booking.findMany({
             where: { 
@@ -76,7 +80,14 @@ async function home(req, res) {
             }
         });
 
-        res.render('emp/index', { data: emp, bookCount, bookingsUser })
+        const bookCan = await prisma.Booking.count({
+            where: {
+                employeeId: pk,
+                status: 'CANCELLED'
+            }
+        });
+
+        res.render('emp/index', { data: emp, bookCount, bookingsUser, reportCount, bookCan })
     } catch (error) {
         console.error(error);
     }
@@ -169,6 +180,66 @@ async function bookingCompleted(req, res) {
     }
 }
 
+async function BookingCancel(req, res) {
+    try {
+        const empData = req.emp;
+        const pk = empData.empId;
+
+        const emp = await prisma.employee.findUnique({
+            where: { id: pk },
+            include: {
+                expertise: true 
+            }
+        });
+        
+        const bookings = await prisma.Booking.findMany({
+            where: { 
+                employeeId: pk,
+                status: 'CANCELLED' 
+            },
+            include: {
+                user: true, 
+                rating: true, 
+            },
+            orderBy: {
+                createdAt: 'desc', 
+            }
+        });
+
+        res.render('emp/BookingCancel', { data: emp, bookings })
+    } catch (error) {
+        console.error(error);
+    }
+}
+
+async function reports(req, res) {
+    try {
+        const empData = req.emp;
+        const pk = empData.empId;
+
+        const emp = await prisma.employee.findUnique({
+            where: { id: pk },
+            include: {
+                expertise: true 
+            }
+        });
+
+        const reports = await prisma.Report.findMany({
+            where: { employeeId: pk },
+            include: {
+                employee: true,
+                booking: true,
+                user: true
+            }
+        });
+
+        res.render('emp/reports', { data: emp, reports });
+    } catch (error) {
+        console.error(error);
+        
+    }
+}
+
 // handle emp login requests
 async function empLoginProcess (req, res) {
     try {
@@ -215,6 +286,8 @@ async function empLogout (req, res) {
 
 module.exports = {
     empLogin, empReg, empRegData, empLoginProcess, empLogout,
-    home, booking, jobCompleted, bookingCompleted,
+    home, booking, jobCompleted, bookingCompleted, BookingCancel,
+    reports,
+
 }
 

@@ -52,9 +52,24 @@
           <th scope="col">Booking No</th>
           <th scope="col">Employee Name</th>
           <th scope="col">Report Msg</th>
+          <th scope="col">Date Time</th>
         </tr>
         <tbody>
-        </tbody>
+          <% let count = 1; %>
+          <% reports.forEach(col => { %>
+              <tr>
+                  <td><%= count; %></td>
+                  <td><%= col.booking.bookingNo %></td>
+                  <td><%= col.employee.name %></td>
+                  <td><%= col.description %></td>
+                  <td scope="row">
+                      <%= new Date(col.createdAt).toLocaleDateString('en-GB') %> 
+                      <%= new Date(col.createdAt).toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' }) %>
+                  </td>
+              </tr>
+              <% count ++; %>
+          <% }) %>
+      </tbody>
     </thead>
       
     </table>

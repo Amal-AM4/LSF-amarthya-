@@ -87,12 +87,27 @@ async function dashboard (req, res) {
     try {
         const userData = req.userOne;
         const pk = userData.userId;
-        console.log(userData);
 
         const users = await prisma.User.findUnique({
             where: { id: parseInt(pk) }
         });
-        res.render('user/dashboard', { data: users });
+
+        const bookCount = await prisma.Booking.count({
+            where: { userId: pk }
+        });   
+        
+        const reportCount = await prisma.Report.count({
+            where: { userId: pk }
+        }); 
+
+        const bookCan = await prisma.Booking.count({
+            where: {
+                userId: pk,
+                status: 'CANCELLED'
+            }
+        });
+
+        res.render('user/dashboard', { data: users, bookCount, reportCount, bookCan });
     } catch (error) {
         console.error(error);
     }
@@ -186,7 +201,16 @@ async function reports(req, res) {
             where: { id: parseInt(pk) }
         });
 
-        res.render('user/reports', { data: users, });
+        const reports = await prisma.Report.findMany({
+            where: { userId: pk },
+            include: {
+                employee: true,
+                booking: true,
+                user: true
+            }
+        });
+
+        res.render('user/reports', { data: users, reports: reports,});
     } catch (error) {
         console.error(error);
         
@@ -282,10 +306,37 @@ async function bookingCompleted(req, res) {
     }
 }
 
+async function updateRating (req, res) {
+    try {
+        const bookingId = parseInt(req.params.bookingId);
+        const newRating = parseInt(req.params.rating);
+
+        const user = parseInt(req.params.user);
+        const emp = parseInt(req.params.emp);
+
+        await prisma.Rating.upsert({
+            where: { bookingId: bookingId },
+            update: { score: newRating },
+            create: {
+                bookingId: bookingId,
+                score: newRating,
+                // Provide userId and employeeId if necessary
+                userId: user,
+                employeeId: emp
+            }
+        });
+
+        res.status(200).json({ message: 'Rating updated successfully' });
+    } catch (error) {
+        console.error('Error updating rating:', error);
+        res.status(500).json({ message: 'Failed to update rating' });
+    }
+}
+
 
 module.exports = {
     login, register, registerUserData, userLoginProcess, dashboard, userLogout,
     bookList, bookingComplaint, bookingComplaintAdd, reports, bookingCancel, 
-    bookingCancelList, bookingCompleted,
+    bookingCancelList, bookingCompleted, updateRating,
 
 };
