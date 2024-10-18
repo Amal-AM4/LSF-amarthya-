@@ -44,7 +44,7 @@
 
   <main id="main" class="main">
 
-    <h4>Booking Request</h4>
+    <h4>Booking Completed</h4>
 
     <table class="table table-borderless datatable">
         <thead>
@@ -56,7 +56,7 @@
             <th scope="col">Place</th>
             <th scope="col">Address</th>
             <th scope="col">Status</th>
-            <th scope="col">Action</th>
+
           </tr>
         </thead>
         <tbody>
@@ -71,11 +71,8 @@
                     <td scope="row"><%= booking.user.address %></td>
                     <td scope="row">
                         <span 
-                        style="background-color: rgb(255, 193, 7); display: block;
+                        style="background-color: rgb(31, 214, 70); display: block;
                         padding: 5px; border-radius: 4px; font-weight: bold;"><%= booking.status %></span>
-                    </td>
-                    <td scope="row">
-                        <a href="/emp/bookingUpdate/<%= booking.id %>" class="btn btn-success">Job Completed</a>
                     </td>
                 </tr>
                 <% count ++; %>

@@ -119,7 +119,54 @@ async function booking(req, res) {
 }
 
 async function jobCompleted(req, res) {
-    return null;
+    try {
+        const id = req.params.id;
+
+        const updateStatus = await prisma.Booking.update({
+            where: { id: parseInt(id) },
+            data: {
+                status: 'COMPLETED'
+            }
+        });
+
+        res.redirect('/emp/bookingCompleted');
+
+    } catch (error) {
+        console.error(error);
+    }
+}
+
+async function bookingCompleted(req, res) {
+    try {
+        const empData = req.emp;
+        const pk = empData.empId;
+
+        const emp = await prisma.employee.findUnique({
+            where: { id: pk },
+            include: {
+                expertise: true 
+            }
+        });
+
+        const bookings = await prisma.Booking.findMany({
+            where: { 
+                employeeId: pk,
+                status: 'COMPLETED' // Filter by 'PENDING' status
+            },
+            include: {
+                user: true, // To include user details (name, phone, place, address)
+                rating: true, // To include rating details (if available)
+            },
+            orderBy: {
+                createdAt: 'desc', // Order by the most recent bookings
+            }
+        });
+
+        res.render('emp/bookingCompleted', { data: emp, bookings });
+
+    } catch (error) {
+        console.error(error);
+    }
 }
 
 // handle emp login requests
@@ -168,6 +215,6 @@ async function empLogout (req, res) {
 
 module.exports = {
     empLogin, empReg, empRegData, empLoginProcess, empLogout,
-    home, booking, jobCompleted,
+    home, booking, jobCompleted, bookingCompleted,
 }
 

@@ -251,10 +251,41 @@ async function bookingCancelList(req, res) {
     }
 }
 
+async function bookingCompleted(req, res) {
+    try {
+        const userData = req.userOne;
+        const pk = userData.userId;
+
+        const users = await prisma.User.findUnique({
+            where: { id: parseInt(pk) }
+        });
+
+        const bookingsEmp = await prisma.Booking.findMany({
+            where: { 
+                userId: pk,
+                status: 'COMPLETED' 
+            },
+            include: {
+                user: true, 
+                rating: true, 
+                employee: true,
+            },
+            orderBy: {
+                createdAt: 'desc', 
+            }
+        });
+
+        res.render('user/bookingCompleted', { data: users, bookingsEmp });
+        
+    } catch (error) {
+        console.error(error);
+    }
+}
+
 
 module.exports = {
     login, register, registerUserData, userLoginProcess, dashboard, userLogout,
     bookList, bookingComplaint, bookingComplaintAdd, reports, bookingCancel, 
-    bookingCancelList,
+    bookingCancelList, bookingCompleted,
 
 };
