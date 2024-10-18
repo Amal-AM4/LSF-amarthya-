@@ -74,9 +74,21 @@
             </tbody>
           </table>
         </div>
-
+      
       </div>
     </section>
+
+    <!-- Modal to show employee details -->
+    <div id="employeeModal" class="modal" style="display:none;">
+      <div class="modal-content">
+        <span class="close-btn">&times;</span>
+        <h3>Employee Details</h3>
+        <p><strong>Phone:</strong> <span id="employeePhone"></span></p>
+        <p><strong>Average Rating:</strong> <span id="employeeRating"></span></p>
+        <p><strong>Reports Count:</strong> <span id="employeeReports"></span></p>
+      </div>
+    </div>
+
   </main>
 
   <footer id="footer" class="footer">
@@ -122,11 +134,6 @@
       });
     });
 
-    function viewMore(empId) {
-      // Logic to view more employee details like phone, experience, etc.
-      console.log("View more details for employee ID:", empId);
-    }
-
   async function bookEmployee(empId) {
     try {
       const response = await fetch(`/book/${empId}`, {
@@ -151,10 +158,36 @@
     }
   }
 
-
-
-    
   </script>
+
+  <script>
+    async function viewMore(empId) {
+      try {
+        const response = await fetch(`/employee/${empId}`);
+        if (response.ok) {
+          const data = await response.json();
+
+          // Populate the modal with employee details
+          document.getElementById('employeePhone').textContent = data.phone || 'Not available';
+          document.getElementById('employeeRating').textContent = data.avgRating || 'No ratings';
+          document.getElementById('employeeReports').textContent = data.reportsCount || 0;
+
+          // Show the modal
+          document.getElementById('employeeModal').style.display = 'block';
+        } else {
+          alert('Failed to fetch employee details.');
+        }
+      } catch (error) {
+        console.error('Error fetching employee details:', error);
+      }
+    }
+
+    // Close the modal when the close button is clicked
+    document.querySelector('.close-btn').addEventListener('click', () => {
+      document.getElementById('employeeModal').style.display = 'none';
+    });
+  </script>
+
   
 </body>
 </html>

@@ -115,6 +115,45 @@ router.post('/book/:empId', authUser, async (req, res) => {
   }
 });
 
+// view more
+router.get('/employee/:id', async (req, res) => {
+  const employeeId = parseInt(req.params.id);
+
+  try {
+      const employeeDetails = await prisma.Employee.findUnique({
+          where: { id: employeeId },
+          include: {
+              bookings: {
+                  include: {
+                      rating: true, // To get rating details
+                  },
+              },
+              reports: true, // To get reports
+          },
+      });
+      
+      if (!employeeDetails) {
+          return res.status(404).json({ message: 'Employee not found' });
+      }
+
+      // Calculate the average rating
+      const ratings = employeeDetails.bookings.map(booking => booking.rating?.score).filter(score => score !== null);
+      const avgRating = ratings.length > 0 ? (ratings.reduce((a, b) => a + b, 0) / ratings.length).toFixed(2) : 'No ratings';
+
+      const response = {
+          phone: employeeDetails.phone,
+          avgRating: avgRating,
+          reportsCount: employeeDetails.reports.length,
+      };
+      
+      res.json(response);
+  } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: 'An error occurred while fetching employee details' });
+  }
+});
+
+
 
 
 

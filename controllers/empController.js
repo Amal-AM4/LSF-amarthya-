@@ -133,12 +133,24 @@ async function jobCompleted(req, res) {
     try {
         const id = req.params.id;
 
+        const empData = req.emp;
+        const empId = empData.empId;
+
         const updateStatus = await prisma.Booking.update({
             where: { id: parseInt(id) },
             data: {
                 status: 'COMPLETED'
             }
         });
+
+        const updateisAvailable = await prisma.Employee.update({
+            where: { id: empId },
+            data: {
+                isAvailable: true,
+            }
+        });
+
+        console.log('Job completed & emp is available.');
 
         res.redirect('/emp/bookingCompleted');
 
