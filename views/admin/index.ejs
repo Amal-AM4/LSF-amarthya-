@@ -29,6 +29,26 @@
   <!-- Template Main CSS File -->
   <link href="../assets/css/style.css" rel="stylesheet">
 
+  <style>
+    .col {
+        background-color: #fff;
+        color: #1a1a1a;
+        display: flex;
+        flex-direction: column;
+        height: 200px;
+        margin-right: 8px;
+        border-radius: 8px;
+        box-shadow: 10px 10px 15px #1a1a1a25;
+        text-align: center;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .col i {
+        font-size: 48px;
+    }
+  </style>
+
 </head>
 
 <body>
@@ -42,7 +62,45 @@
   <!-- End Sidebar-->
 
   <main id="main" class="main">
-    <h1>Dashboard Index</h1>
+    <h1>Dashboard</h1>
+
+    <h4>Sub Information</h4>
+
+
+    <div class="container my-4">
+      <div class="row">
+        <div class="col">
+          <i class="bi bi-book"></i>
+          <h2><%= bookCount || 0 %></h2>
+          <h3>Total Booking</h3>
+        </div>
+        <div class="col">
+          <i class="bi bi-x-octagon"></i>
+          <h2><%= bookCan || 0 %></h2>
+          <h3>Cancelled</h3>
+        </div>
+        <div class="col">
+          <i class="bi bi-flag"></i>
+          <h2><%= reportCount || 0 %></h2>
+          <h3>Reports</h3>
+        </div>
+      </div>
+
+      <div class="row mt-4">
+        <div class="col">
+          <i class="bi bi-person-fill-check"></i>
+          <h2><%= user || 0 %></h2>
+          <h3>Total User</h3>
+        </div>
+        <div class="col">
+          <i class="bi bi-wrench-adjustable-circle"></i>
+          <h2><%= employee || 0 %></h2>
+          <h3>Total Employee</h3>
+        </div>
+
+      </div>
+    </div>
+
   </main>
 
   <!-- ======= Footer ======= -->

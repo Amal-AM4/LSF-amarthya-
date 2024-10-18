@@ -53,7 +53,13 @@ async function adminLogout (req, res) {
 
 async function home(req, res) {
     try {
-        res.render('admin/index')
+        const bookCount = await prisma.Booking.count();  
+        const reportCount = await prisma.Report.count(); 
+        const bookCan = await prisma.Booking.count();
+        const user = await prisma.User.count();
+        const employee = await prisma.Employee.count();
+
+        res.render('admin/index', { bookCount, reportCount, bookCan, user, employee });
     } catch (error) {
         console.error(error);
     }
@@ -166,10 +172,26 @@ async function removeUser(req, res) {
     }
 }
 
-// global page
 async function login(req, res) {
     try {
         res.render('login')
+    } catch (error) {
+        console.error(error);
+    }
+}
+
+// global page
+async function reports(req, res) {
+    try {
+        const reports = await prisma.Report.findMany({
+            include: {
+                user: true,
+                employee: true,
+                booking: true
+            }
+        });
+
+        res.render('admin/reports', { reports })
     } catch (error) {
         console.error(error);
     }
@@ -187,5 +209,5 @@ module.exports = {
     adminLogin, adminLogin, adminLoginProcess, home, adminLogout,
     addCategory, categoryAdd, removeCategory, empDetails, removeEmp,
     userDetails, removeUser,
-    login, register
+    login, register, reports,
 };

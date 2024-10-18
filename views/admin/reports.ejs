@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-  <title>Reports List | Emp</title>
+  <title>Dashboard</title>
   <meta content="" name="description">
   <meta content="" name="keywords">
 
@@ -29,6 +29,26 @@
   <!-- Template Main CSS File -->
   <link href="../assets/css/style.css" rel="stylesheet">
 
+  <style>
+    .col {
+        background-color: #fff;
+        color: #1a1a1a;
+        display: flex;
+        flex-direction: column;
+        height: 200px;
+        margin-right: 8px;
+        border-radius: 8px;
+        box-shadow: 10px 10px 15px #1a1a1a25;
+        text-align: center;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .col i {
+        font-size: 48px;
+    }
+  </style>
+
 </head>
 
 <body>
@@ -42,36 +62,38 @@
   <!-- End Sidebar-->
 
   <main id="main" class="main">
-    <h1>All Reports List</h1>
+    <h1>All Reports</h1>
 
     <table class="table table-borderless datatable">
-      <thead>
-        <tr>
-          <th scope="col">#</th>
-          <th scope="col">Booking No</th>
-          <th scope="col">User Name</th>
-          <th scope="col">Report Msg</th>
-          <th scope="col">Date Time</th>
-        </tr>
-        <tbody>
-            <% let count = 1; %>
-            <% reports.forEach(col => { %>
-                <tr>
-                    <td><%= count; %></td>
-                    <td><%= col.booking.bookingNo %></td>
-                    <td><%= col.user.name %></td>
-                    <td><%= col.description %></td>
-                    <td scope="row">
-                        <%= new Date(col.createdAt).toLocaleDateString('en-GB') %> 
-                        <%= new Date(col.createdAt).toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' }) %>
-                    </td>
-                </tr>
-                <% count ++; %>
-            <% }) %>
-        </tbody>
-    </thead>
-      
-    </table>
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Booking No</th>
+            <th scope="col">User</th>
+            <th scope="col">Employee</th>
+            <th scope="col">Report Msg</th>
+            <th scope="col">Date Time</th>
+          </tr>
+          <tbody>
+              <% let count = 1; %>
+              <% reports.forEach(col => { %>
+                  <tr>
+                      <td><%= count; %></td>
+                      <td><%= col.booking.bookingNo %></td>
+                      <td><%= col.user.name %></td>
+                      <td><%= col.employee.name %></td>
+                      <td><%= col.description %></td>
+                      <td scope="row">
+                          <%= new Date(col.createdAt).toLocaleDateString('en-GB') %> 
+                          <%= new Date(col.createdAt).toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' }) %>
+                      </td>
+                  </tr>
+                  <% count ++; %>
+              <% }) %>
+          </tbody>
+      </thead>
+        
+      </table>
 
   </main>
 
