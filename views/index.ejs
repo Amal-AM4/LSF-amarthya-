@@ -84,6 +84,8 @@
         <span class="close-btn">&times;</span>
         <h3>Employee Details</h3>
         <p><strong>Phone:</strong> <span id="employeePhone"></span></p>
+        <p><strong>Education:</strong> <span id="employeeEducation"></span></p>
+        <p><strong>Experience:</strong> <span id="employeeExperience"></span></p>
         <p><strong>Average Rating:</strong> <span id="employeeRating"></span></p>
         <p><strong>Reports Count:</strong> <span id="employeeReports"></span></p>
       </div>
@@ -169,6 +171,8 @@
 
           // Populate the modal with employee details
           document.getElementById('employeePhone').textContent = data.phone || 'Not available';
+          document.getElementById('employeeEducation').textContent = data.education || 'Not available';
+          document.getElementById('employeeExperience').textContent = data.experience + ' years' || 'Not available';
           document.getElementById('employeeRating').textContent = data.avgRating || 'No ratings';
           document.getElementById('employeeReports').textContent = data.reportsCount || 0;
 

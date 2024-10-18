@@ -142,6 +142,8 @@ router.get('/employee/:id', async (req, res) => {
 
       const response = {
           phone: employeeDetails.phone,
+          education: employeeDetails.education,
+          experience: employeeDetails.experience,
           avgRating: avgRating,
           reportsCount: employeeDetails.reports.length,
       };
