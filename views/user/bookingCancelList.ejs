@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-  <title>Booking List | User</title>
+  <title>Dashboard | User</title>
   <meta content="" name="description">
   <meta content="" name="keywords">
 
@@ -42,7 +42,7 @@
   <!-- End Sidebar-->
 
   <main id="main" class="main">
-    <h1>Booking List</h1>
+    <h1>All Cancelled Booking</h1>
 
     <table class="table table-borderless datatable">
         <thead>
@@ -54,13 +54,12 @@
             <th scope="col">Place</th>
             <th scope="col">Address</th>
             <th scope="col">Status</th>
-            <th scope="col">Action</th>
-            <th scope="col">Report</th>
+
           </tr>
         </thead>
         <tbody>
             <% let count = 1; %>
-            <% bookingsUser.forEach(booking => { %>
+            <% bookingsEmp.forEach(booking => { %>
                 <tr>
                     <td scope="row"><%= count; %></td>
                     <td scope="row"><%= booking.bookingNo %></td>
@@ -70,15 +69,10 @@
                     <td scope="row"><%= booking.employee.address %></td>
                     <td scope="row">
                         <span 
-                        style="background-color: rgb(255, 193, 7); display: block; text-align: center;
+                        style="background-color: rgb(255, 57, 7); display: block; text-align: center;
                         padding: 5px; border-radius: 4px; font-weight: bold;"><%= booking.status %></span>
                     </td>
-                    <td scope="row">
-                        <a href="/user/bookingCancel/<%= booking.id %>/<%= booking.employee.id %>" class="btn btn-danger">Cancel</a>
-                    </td>
-                    <td scope="row">
-                        <a href="/user/bookingComplaint?id=<%= booking.bookingNo %>" class="btn btn-danger">Complaint</a>
-                    </td>
+
                 </tr>
                 <% count ++; %>
               <% }) %>

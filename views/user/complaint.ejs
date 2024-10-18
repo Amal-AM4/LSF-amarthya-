@@ -44,7 +44,12 @@
   <main id="main" class="main">
     <h1>Booking Complaint</h1>
 
-    <form action="/user/bookingComplaint/<%= bookingsEmp.id %>" method="post">
+    <form action="/user/bookingComplaint" method="post">
+
+        <input type="hidden" name="bookingId" value="<%= bookingsEmp.id %>">
+        <input type="hidden" name="empId" value="<%= bookingsEmp.employee.id %>">
+        <input type="hidden" name="userId" value="<%= data.id %>">
+
         <div class="form-group">
           <label for="bookingNo">Booking No</label>
           <input type="text" class="form-control" name="bookingNo" id="bookingNo" disabled value="<%= bookingsEmp.bookingNo %>">
@@ -57,10 +62,10 @@
 
         <div class="form-group mt-2">
           <label for="message">Message</label>
-          <textarea name="message" class="form-control" id="message"></textarea>
+          <textarea name="message" style="height: 200px;" class="form-control" id="message" placeholder="Enter the complaint"></textarea>
         </div>
 
-        <button type="submit" class="btn btn-primary mt-4">Submit</button>
+        <button type="submit" class="btn btn-primary btn-lg mt-4">Submit</button>
     </form>
 
   </main>

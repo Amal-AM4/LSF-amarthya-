@@ -150,9 +150,13 @@ router.get('/user/register', userController.register);
 router.get('/user/dashboard', authUser, userController.dashboard);
 router.get('/user/bookList', authUser, userController.bookList);
 router.get('/user/bookingComplaint', authUser, userController.bookingComplaint);
+router.get('/user/reports', authUser, userController.reports);
+router.get('/user/bookingCancel/:bookingID/:empId', authUser, userController.bookingCancel);
+router.get('/user/bookingCancelList', authUser, userController.bookingCancelList);
 
 router.post('/user/register', userController.registerUserData);
 router.post('/user/login', userController.userLoginProcess);
+router.post('/user/bookingComplaint', userController.bookingComplaintAdd);
 
 
 

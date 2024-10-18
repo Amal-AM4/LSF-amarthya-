@@ -157,9 +157,104 @@ async function bookingComplaint(req, res) {
     }
 }
 
+async function bookingComplaintAdd(req, res) {
+    try {
+        const { bookingId, empId, userId, message } = req.body;
+        const reports = await prisma.Report.create({
+            data: {
+                userId: parseInt(userId),
+                employeeId: parseInt(empId),
+                bookingId: parseInt(bookingId),
+                description: message
+            }
+        });
+
+        console.log('report is added');
+
+        res.redirect('/user/reports');
+    } catch (error) {
+        console.error(error);
+    }
+}
+
+async function reports(req, res) {
+    try {
+        const userData = req.userOne;
+        const pk = userData.userId;
+
+        const users = await prisma.User.findUnique({
+            where: { id: parseInt(pk) }
+        });
+
+        res.render('user/reports', { data: users, });
+    } catch (error) {
+        console.error(error);
+        
+    }
+}
+
+async function bookingCancel(req, res) {
+    try {
+        const bookId = parseInt(req.params.bookingID);
+        const empId = parseInt(req.params.empId);
+
+        const updatedBooking = await prisma.Booking.update({
+            where: { id: bookId },
+            data: {
+                status: 'CANCELLED' // Updating the status to CANCELLED
+            }
+        });
+
+        const updatedEmp = await prisma.Employee.update({
+            where: { id: empId },
+            data: {
+                isAvailable: true 
+            }
+        });
+        console.log('Booking is cancelled');
+
+        res.redirect('/user/bookingCancelList');
+    } catch (error) {
+        console.error(error);
+        
+    }
+}
+
+async function bookingCancelList(req, res) {
+    try {
+        const userData = req.userOne;
+        const pk = userData.userId;
+
+        const users = await prisma.User.findUnique({
+            where: { id: parseInt(pk) }
+        });
+
+        const bookingsEmp = await prisma.Booking.findMany({
+            where: { 
+                userId: pk,
+                status: 'CANCELLED' 
+            },
+            include: {
+                user: true, 
+                rating: true, 
+                employee: true,
+            },
+            orderBy: {
+                createdAt: 'desc', 
+            }
+        });
+
+        res.render('user/bookingCancelList', { data: users, bookingsEmp });
+        
+    } catch (error) {
+        console.error(error);
+    }
+}
+
 
 module.exports = {
     login, register, registerUserData, userLoginProcess, dashboard, userLogout,
-    bookList, bookingComplaint
+    bookList, bookingComplaint, bookingComplaintAdd, reports, bookingCancel, 
+    bookingCancelList,
 
 };
