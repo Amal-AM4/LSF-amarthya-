@@ -54,6 +54,7 @@
             <th scope="col">Place</th>
             <th scope="col">Address</th>
             <th scope="col">Status</th>
+            <th scope="col">Call</th>
             <th scope="col">Action</th>
             <th scope="col">Report</th>
           </tr>
@@ -72,6 +73,11 @@
                         <span 
                         style="background-color: rgb(255, 193, 7); display: block; text-align: center;
                         padding: 5px; border-radius: 4px; font-weight: bold;"><%= booking.status %></span>
+                    </td>
+                    <td scope="row">
+                        <a href="tel:+91<%= booking.employee.phone %>" class="btn btn-success">
+                            <i class="bi bi-telephone"></i>
+                        </a>
                     </td>
                     <td scope="row">
                         <a href="/user/bookingCancel/<%= booking.id %>/<%= booking.employee.id %>" class="btn btn-danger">Cancel</a>
