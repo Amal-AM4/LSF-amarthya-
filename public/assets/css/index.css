@@ -177,6 +177,11 @@ table tbody tr td .btn-book {
     text-align: center;
 }
 
+.btn-view {
+    background-color: rgb(194, 194, 194) !important;
+    color: #ffffff !important;
+}
+
 
 /* Modal Background */
 .modal {

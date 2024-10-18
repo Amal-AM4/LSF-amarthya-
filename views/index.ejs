@@ -121,7 +121,13 @@
             <td>${employee.expertise.name}</td>
             <td>${employee.place}</td>
             <td>
-              <button onclick="viewMore(${employee.id})" class='btn-view'>View More</button>
+
+              <% if (active === false) { %>
+                <button disabled onclick="viewMore(${employee.id})" class='btn-view'>View More</button>
+              <% } else { %>
+                <button onclick="viewMore(${employee.id})" class='btn-view'>View More</button>
+              <% } %>
+
               <% if (active === false) { %>
                 <button disabled onclick="bookEmployee(${employee.id})" class='btn-book'
                 style="background-color: #888888;">Book</button>
