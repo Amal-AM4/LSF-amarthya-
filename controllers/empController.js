@@ -23,12 +23,13 @@ async function empReg (req, res) {
 
 async function empRegData (req, res) {
     try {
-        const { name, phone, category, exp, edu, addr, place, password } = req.body;
+        const { name, phone, category, exp, edu, addr, place, password, amt } = req.body;
         const addEmpData = await prisma.Employee.create({
             data: {
                 name: name,
                 phone: phone,
                 expertiseId: parseInt(category),
+                amount: parseFloat(amt),
                 experience: parseInt(exp),
                 education: edu,
                 address: addr,

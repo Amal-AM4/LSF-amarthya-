@@ -46,7 +46,7 @@
         <form id="searchForm">
           <div class="form-control">
             <input type="text" name="place" id="place" required placeholder="Place/Location">
-            <select name="jobCategoryId" id="jobCategoryId">
+            <select name="jobCategoryId" id="jobCategoryId" required>
               <option hidden>Job Title</option>
               <% data.forEach(col => { %>
                 <option value="<%= col.id %>"><%= col.name %></option>
@@ -66,6 +66,7 @@
                 <th>Name</th>
                 <th>Category</th>
                 <th>Place</th>
+                <th>Excepted Amount</th>
                 <th>Actions</th>
               </tr>
             </thead>
@@ -120,6 +121,7 @@
             <td>${employee.name}</td>
             <td>${employee.expertise.name}</td>
             <td>${employee.place}</td>
+            <td>Rs. ${employee.amount}</td>
             <td>
 
               <% if (active === false) { %>

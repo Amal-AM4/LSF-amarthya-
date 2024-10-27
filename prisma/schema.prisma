@@ -44,6 +44,7 @@ model Employee {
   ratings     Rating[]
   isAvailable Boolean     @default(true)
   place       String // Employee's place (e.g., city or town)
+  amount      Float?
   education   String? // Higher education (optional)
   experience  Int // Number of years of experience
   address     String // Full address of the employee
