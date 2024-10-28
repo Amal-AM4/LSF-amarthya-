@@ -56,7 +56,6 @@
             <th scope="col">Status</th>
             <th scope="col">Call</th>
             <th scope="col">Action</th>
-            <th scope="col">Report</th>
           </tr>
         </thead>
         <tbody>
@@ -82,9 +81,7 @@
                     <td scope="row">
                         <a href="/user/bookingCancel/<%= booking.id %>/<%= booking.employee.id %>" class="btn btn-danger">Cancel</a>
                     </td>
-                    <td scope="row">
-                        <a href="/user/bookingComplaint?id=<%= booking.bookingNo %>" class="btn btn-danger">Complaint</a>
-                    </td>
+                    
                 </tr>
                 <% count ++; %>
               <% }) %>

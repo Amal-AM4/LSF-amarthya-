@@ -55,6 +55,7 @@
             <th scope="col">Rating</th>
             <th scope="col">Date Time</th>
             <th scope="col">Status</th>
+            <th scope="col">Report</th>
 
           </tr>
         </thead>
@@ -89,7 +90,9 @@
                         style="background-color: rgb(71, 216, 57); display: block; text-align: center;
                         padding: 5px; border-radius: 4px; font-weight: bold;"><%= booking.status %></span>
                     </td>
-
+                    <td scope="row">
+                      <a href="/user/bookingComplaint?id=<%= booking.bookingNo %>" class="btn btn-danger">Complaint</a>
+                  </td>
                 </tr>
                 <% count ++; %>
               <% }) %>

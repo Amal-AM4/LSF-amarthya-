@@ -163,10 +163,6 @@ router.get('/employee/:id', async (req, res) => {
   }
 });
 
-
-
-
-
 // admin
 router.get('/admin/logout', adminController.adminLogout);
 router.get('/admin/login', adminController.adminLogin);
