@@ -137,8 +137,16 @@ router.get('/employee/:id', async (req, res) => {
       }
 
       // Calculate the average rating
-      const ratings = employeeDetails.bookings.map(booking => booking.rating?.score).filter(score => score !== null);
-      const avgRating = ratings.length > 0 ? (ratings.reduce((a, b) => a + b, 0) / ratings.length).toFixed(2) : 'No ratings';
+      const maxScore = 5;
+
+      const ratings = employeeDetails.bookings
+        .map(booking => booking.rating?.score)
+        .filter(score => score != null); // This filters out both null and undefined
+
+        const avgRating = ratings.length > 0 
+          ? (ratings.map(score => score / maxScore).reduce((a, b) => a + b, 0) / ratings.length).toFixed(2)
+          : 'No ratings';
+      
 
       const response = {
           phone: employeeDetails.phone,
