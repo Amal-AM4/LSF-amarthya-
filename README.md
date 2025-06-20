@@ -1,4 +1,5 @@
 # 🛠️ Local Service Find
+<img src="screenshot/lsf.jpg" />
 
 **Local Service Find** is a web application that allows users to **search for local service professionals** (plumbers, electricians, cleaners, etc.) based on **location** and **service type**.  
 This project was **developed by me** and handed over to a **B.Tech student of Mohandas College of Engineering and Technology** as a **mini project**.
@@ -16,10 +17,8 @@ This project was **developed by me** and handed over to a **B.Tech student of Mo
 
 ---
 
-## 📸 Project Screenshot
-
-![Local Service Find Screenshot](./screenshots/local-service-dashboard.png)  
-> 📎 Place the actual screenshot image in a `screenshots/` folder.
+## 📸 Project Screenshot 
+<img src="screenshot/localhost_3000_ (3).png" />
 
 ---
 
